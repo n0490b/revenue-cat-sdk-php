@@ -5,59 +5,67 @@ declare(strict_types=1);
 namespace Lanos\RevenueCat\Resources;
 
 use Lanos\RevenueCat\Exceptions\RevenueCatException;
+use Lanos\RevenueCat\Traits\ProjectIdTrait;
 
 class Customers extends AbstractResource
 {
+    use ProjectIdTrait;
+
     /**
      * Get a customer by ID
      *
-     * @param string $projectId
-     * @param string $customerId
+     * @param string $id
+     * @param array<string, mixed> $params
      * @return array<string, mixed>
      * @throws RevenueCatException
      */
-    public function get(string $projectId, string $customerId): array
+    public function get(string $id, array $params = []): array
     {
-        return $this->client->get("/projects/{$projectId}/customers/{$customerId}");
+        $projectId = $this->extractProjectId($params);
+        return $this->client->get("/projects/{$projectId}/customers/{$id}");
     }
 
     /**
      * List customers for a project
      *
-     * @param string $projectId
      * @param array<string, mixed> $params
      * @return array<string, mixed>
      * @throws RevenueCatException
      */
-    public function list(string $projectId, array $params = []): array
+    public function list(array $params = []): array
     {
+        $projectId = $this->extractProjectId($params);
         return $this->client->get("/projects/{$projectId}/customers", $params);
     }
 
     /**
      * Create a customer
      *
-     * @param string $projectId
      * @param array<string, mixed> $data
      * @return array<string, mixed>
      * @throws RevenueCatException
      */
-    public function create(string $projectId, array $data): array
+    public function create(array $data): array
     {
+        $projectId = $data['project_id'] ?? null;
+        if (!$projectId) {
+            throw new RevenueCatException('project_id is required in data');
+        }
         return $this->client->post("/projects/{$projectId}/customers", $data);
     }
 
     /**
      * Delete a customer
      *
-     * @param string $projectId
-     * @param string $customerId
+     * @param string $id
+     * @param array<string, mixed> $params
      * @return array<string, mixed>
      * @throws RevenueCatException
      */
-    public function delete(string $projectId, string $customerId): array
+    public function delete(string $id, array $params = []): array
     {
-        return $this->client->delete("/projects/{$projectId}/customers/{$customerId}");
+        $projectId = $this->extractProjectId($params);
+        return $this->client->delete("/projects/{$projectId}/customers/{$id}");
     }
 
     /**
