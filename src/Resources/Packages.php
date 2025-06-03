@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Lanos\RevenueCat\Resources;
 
 use Lanos\RevenueCat\Exceptions\RevenueCatException;
+use Lanos\RevenueCat\Traits\ProjectIdTrait;
 
 class Packages extends AbstractResource
 {
+    use ProjectIdTrait;
     /**
      * Get a package by ID
      *
