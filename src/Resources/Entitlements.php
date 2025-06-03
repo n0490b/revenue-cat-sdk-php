@@ -8,6 +8,7 @@ use Lanos\RevenueCat\Exceptions\RevenueCatException;
 use Lanos\RevenueCat\Traits\ProjectIdTrait;
 class Entitlements extends AbstractResource
 {
+    use ProjectIdTrait;
     /**
      * Get an entitlement by ID
      *
