@@ -8,7 +8,7 @@ use Lanos\RevenueCat\Exceptions\RevenueCatException;
 use Lanos\RevenueCat\Traits\ProjectIdTrait;
 class Products extends AbstractResource
 {
-    use Lanos\RevenueCat\Traits\ProjectIdTrait;
+    use ProjectIdTrait;
 
     /**
      * Get a product by ID
